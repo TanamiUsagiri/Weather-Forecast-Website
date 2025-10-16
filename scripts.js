@@ -1,4 +1,3 @@
-// Using Open-Meteo (free, no API key required)
 const API_KEY = "";
 
 document.getElementById("searchBtn").addEventListener("click", async () => {
@@ -25,13 +24,13 @@ document.getElementById("cityInput").addEventListener("keydown", (e) => {
   }
 });
 
-// Load Hà Nội by default on first load (bypass Geo to avoid 401)
+// Load Hà Nội by default on first load
 window.addEventListener("DOMContentLoaded", () => {
   const defaultCity = { name: "Hà Nội", country: "VN", lat: 21.0278, lon: 105.8342 };
   getWeather(defaultCity.lat, defaultCity.lon, defaultCity.name, defaultCity.country);
 });
 
-// Autocomplete suggestions using Open-Meteo Geocoding
+// Autocomplete suggestions
 const cityInputEl = document.getElementById("cityInput");
 const suggestionsEl = document.getElementById("suggestions");
 let debounceTimer;
@@ -149,7 +148,6 @@ async function getWeather(lat, lon, city, country) {
   }
 }
 
-// Weather code to human text (Open-Meteo)
 function weatherCodeToText(code) {
   const map = {
     0: "Trời quang",
