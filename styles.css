@@ -4,6 +4,7 @@ body {
     background: linear-gradient(to right, #5cb6ff, #7a64ff);
     color: #fff;
     text-align: center;
+    transition: background 0.6s ease;
   }
   
   .container {
@@ -96,3 +97,13 @@ body {
     margin: 10px;
   }
   
+  /* Dynamic backgrounds based on weather */
+  body.bg-day-clear { background: linear-gradient(120deg, #5fd0ff, #ffd36b); }
+  body.bg-day-cloudy { background: linear-gradient(120deg, #8ea6c9, #6d86b5); }
+  body.bg-fog { background: linear-gradient(120deg, #bfc8d2, #98a3af); }
+  body.bg-rain { background: linear-gradient(120deg, #4e79a7, #355c7d); }
+  body.bg-thunder { background: linear-gradient(120deg, #3b3b98, #182848); }
+  body.bg-snow { background: linear-gradient(120deg, #cfe9ff, #9fd3f5); }
+  body.bg-night-clear { background: linear-gradient(120deg, #0f203a, #273c75); }
+  body.bg-night-cloudy { background: linear-gradient(120deg, #2b3a55, #1f2a44); }
+  body.bg-default { background: linear-gradient(to right, #5cb6ff, #7a64ff); }

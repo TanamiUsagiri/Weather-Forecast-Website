@@ -142,6 +142,13 @@ async function getWeather(lat, lon, city, country) {
     <h4>Tanami</h4>
     <p>nguyenphongtan2004@gmail.com</p>
   `;
+
+  // Cập nhật nền theo mã thời tiết và ngày/đêm
+  const now = new Date();
+  const sunriseDt = new Date(data.daily.sunrise[0]);
+  const sunsetDt = new Date(data.daily.sunset[0]);
+  const isNight = now < sunriseDt || now > sunsetDt;
+  updateBackgroundTheme(current.weathercode, isNight);
   } catch (err) {
     console.error(err);
     alert("Đã xảy ra lỗi khi tải dữ liệu thời tiết.");
@@ -178,4 +185,32 @@ function weatherCodeToText(code) {
     99: "Dông kèm mưa đá mạnh",
   };
   return map[code] || "Thời tiết";
+}
+
+// Xác định class nền dựa vào weathercode và trạng thái ngày/đêm
+function getBackgroundClass(weatherCode, isNight) {
+  // Clear / mainly clear
+  if ([0, 1].includes(weatherCode)) return isNight ? "bg-night-clear" : "bg-day-clear";
+  // Cloudy variants
+  if ([2, 3].includes(weatherCode)) return isNight ? "bg-night-cloudy" : "bg-day-cloudy";
+  // Fog
+  if ([45, 48].includes(weatherCode)) return "bg-fog";
+  // Drizzle and rain (51-67, 80-82)
+  if ((weatherCode >= 51 && weatherCode <= 67) || (weatherCode >= 80 && weatherCode <= 82)) return "bg-rain";
+  // Snow (71-77)
+  if (weatherCode >= 71 && weatherCode <= 77) return "bg-snow";
+  // Thunder (95-99)
+  if (weatherCode >= 95 && weatherCode <= 99) return "bg-thunder";
+  return "bg-default";
+}
+
+function updateBackgroundTheme(weatherCode, isNight) {
+  const cls = getBackgroundClass(weatherCode, isNight);
+  const body = document.body;
+  const all = [
+    "bg-day-clear","bg-day-cloudy","bg-fog","bg-rain","bg-thunder","bg-snow",
+    "bg-night-clear","bg-night-cloudy","bg-default"
+  ];
+  all.forEach(c => body.classList.remove(c));
+  body.classList.add(cls);
 }
