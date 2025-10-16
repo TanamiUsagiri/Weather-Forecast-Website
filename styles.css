@@ -1,0 +1,98 @@
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(to right, #5cb6ff, #7a64ff);
+    color: #fff;
+    text-align: center;
+  }
+  
+  .container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  header h1 {
+    font-size: 2.2rem;
+    margin: 0;
+  }
+  
+  .search-bar {
+    margin-top: 10px;
+    position: relative;
+  }
+  
+  .search-bar input {
+    padding: 10px;
+    width: 60%;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    text-align: center;
+  }
+  
+  .search-bar button {
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+  }
+
+  /* Suggestions dropdown */
+  .suggestions {
+    position: absolute;
+    top: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-height: 260px;
+    overflow-y: auto;
+    background: rgba(255,255,255,0.95);
+    color: #222;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    z-index: 10;
+    display: none;
+  }
+  .suggestions.visible { display: block; }
+  .suggestion-item {
+    padding: 10px 14px;
+    cursor: pointer;
+  }
+  .suggestion-item:hover,
+  .suggestion-item.active { background: #eef3ff; }
+  
+  .card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  
+  .forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .forecast-grid .card {
+    padding: 15px;
+    background: rgba(255,255,255,0.15);
+  }
+  
+  .extra-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .extra-info .card {
+    flex: 1 1 30%;
+    margin: 10px;
+  }
+  

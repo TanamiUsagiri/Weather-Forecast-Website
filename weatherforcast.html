@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>🌦️ Dự Báo Thời Tiết</h1>
+        <p>Cập nhật thông tin thời tiết mới nhất</p>
+        <div class="search-bar">
+          <input type="text" id="cityInput" placeholder="Nhập tên thành phố...">
+          <button id="searchBtn" aria-label="Tìm kiếm" title="Tìm kiếm"><i class="fa fa-search"></i></button>
+          <div id="suggestions" class="suggestions"></div>
+        </div>
+    </header>
+    <section id="currentWeather"></section>
+    <h2>Dự báo 7 ngày tới</h2>
+    <div id="forecast7Days" class="forecast-grid"></div>
+
+    <h2>Dự báo theo giờ</h2>
+    <div id="hourlyForecast" class="forecast-grid"></div>
+
+    <div class="extra-info">
+      <div class="card" id="sun-info"></div>
+      <div class="card" id="temp-info"></div>
+      <div class="card" id="rain-info"></div>
+    </div>
+</body>
+<script src="scripts.js"></script>
+</html>
