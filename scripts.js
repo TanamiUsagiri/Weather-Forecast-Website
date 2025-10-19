@@ -160,6 +160,7 @@ async function getWeather(lat, lon, city, country) {
   document.getElementById("rain-info").innerHTML = `
     <h4>Tanami</h4>
     <p>nguyenphongtan2004@gmail.com</p>
+    <p>Dữ liệu lấy từ Open-Meteo + Geo API</p>
   `;
 
   // Cập nhật nền theo mã thời tiết và ngày/đêm
