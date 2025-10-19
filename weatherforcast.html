@@ -29,6 +29,50 @@
       <div class="card" id="temp-info"></div>
       <div class="card" id="rain-info"></div>
     </div>
+
+    <!-- AI Weather Chatbot -->
+    <div id="chatbot-container">
+      <div id="chatbot-toggle" class="chatbot-toggle">
+        <i class="fas fa-robot"></i>
+        <span class="chatbot-badge">AI</span>
+      </div>
+      
+      <div id="chatbot-window" class="chatbot-window hidden">
+        <div class="chatbot-header">
+          <div class="chatbot-title">
+            <i class="fas fa-robot"></i>
+            <span>AI Weather Assistant</span>
+          </div>
+          <button id="chatbot-close" class="chatbot-close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <div id="chatbot-messages" class="chatbot-messages">
+          <div class="chatbot-message bot-message">
+            <div class="message-content">
+              <i class="fas fa-robot"></i>
+              <p>Xin chào! Tôi là trợ lý ảo chuyên về thời tiết. Bạn có thể hỏi tôi về:</p>
+              <ul>
+                <li>Dự báo thời tiết</li>
+                <li>Nhiệt độ hiện tại</li>
+                <li>Độ ẩm, tốc độ gió</li>
+                <li>Lời khuyên về thời tiết</li>
+                <li>Hoạt động vui chơi phù hợp</li>
+                <li>Địa điểm nên đi dựa trên thời tiết</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="chatbot-input-container">
+          <input type="text" id="chatbot-input" placeholder="Hỏi tôi về thời tiết và hoạt động..." maxlength="200">
+          <button id="chatbot-send" class="chatbot-send">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
 </body>
 <script src="scripts.js"></script>
 </html>
