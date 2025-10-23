@@ -9,7 +9,12 @@
 </head>
 <body>
     <header>
-        <h1>🌦️ Dự Báo Thời Tiết</h1>
+        <div class="header-top">
+          <h1>🌦️ Dự Báo Thời Tiết</h1>
+          <button id="darkModeToggle" class="dark-mode-toggle" title="Chuyển đổi chế độ tối/sáng">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
         <p>Cập nhật thông tin thời tiết mới nhất</p>
         <div class="search-bar">
           <input type="text" id="cityInput" placeholder="Nhập tên thành phố...">
@@ -17,7 +22,10 @@
           <div id="suggestions" class="suggestions"></div>
         </div>
     </header>
-    <section id="currentWeather"></section>
+    <section id="currentWeather">
+      <div id="weatherIcon" class="weather-icon-container"></div>
+      <div id="weatherInfo"></div>
+    </section>
     <h2>Dự báo 7 ngày tới</h2>
     <div id="forecast7Days" class="forecast-grid"></div>
 
@@ -73,6 +81,9 @@
         </div>
       </div>
     </div>
+
+    <!-- Particle Effects Container -->
+    <div id="particles-container"></div>
 </body>
 <script src="scripts.js"></script>
 </html>

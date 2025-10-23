@@ -42,6 +42,9 @@ document.getElementById("cityInput").addEventListener("keydown", (e) => {
 
 // Load Hà Nội by default on first load
 window.addEventListener("DOMContentLoaded", () => {
+  // Initialize dark mode
+  initDarkMode();
+  
   const defaultCity = { name: "Hà Nội", country: "VN", lat: 21.0278, lon: 105.8342 };
   getWeather(defaultCity.lat, defaultCity.lon, defaultCity.name, defaultCity.country);
 });
@@ -101,12 +104,30 @@ async function getWeather(lat, lon, city, country) {
 
   // Thời tiết hiện tại
   const current = data.current_weather;
-  document.getElementById("currentWeather").innerHTML = `
+  
+  // Update weather content
+  const currentWeatherEl = document.getElementById("currentWeather");
+  
+  // Find or create weather info container
+  let weatherInfo = document.getElementById('weatherInfo');
+  if (!weatherInfo) {
+    weatherInfo = document.createElement('div');
+    weatherInfo.id = 'weatherInfo';
+    currentWeatherEl.appendChild(weatherInfo);
+  }
+  
+  weatherInfo.innerHTML = `
     <h2>${city}, ${country}</h2>
     <h3>${Math.round(current.temperature)}°C</h3>
     <p>${weatherCodeToText(current.weathercode)}</p>
     <p>Gió: ${current.windspeed} km/h</p>
   `;
+  
+  // Update weather icon
+  updateWeatherIcon(current.weathercode);
+  
+  // Update particle effects
+  updateParticleEffects(current.weathercode);
 
   // 7 ngày tới
   const days = data.daily.time;
@@ -250,6 +271,201 @@ function updateBackgroundTheme(weatherCode, isNight) {
   ];
   all.forEach(c => body.classList.remove(c));
   body.classList.add(cls);
+}
+
+// Dark Mode Logic
+let isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+// Initialize dark mode
+function initDarkMode() {
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const icon = darkModeToggle.querySelector('i');
+  
+  if (isDarkMode) {
+    document.body.classList.add('dark-mode');
+    icon.className = 'fas fa-sun';
+  } else {
+    icon.className = 'fas fa-moon';
+  }
+}
+
+// Toggle dark mode
+function toggleDarkMode() {
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const icon = darkModeToggle.querySelector('i');
+  
+  isDarkMode = !isDarkMode;
+  localStorage.setItem('darkMode', isDarkMode);
+  
+  if (isDarkMode) {
+    document.body.classList.add('dark-mode');
+    icon.className = 'fas fa-sun';
+  } else {
+    document.body.classList.remove('dark-mode');
+    icon.className = 'fas fa-moon';
+  }
+}
+
+// Dark mode toggle event listener
+document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+
+// Weather Icon Functions
+function getWeatherIcon(code) {
+  const iconMap = {
+    0: { icon: '☀️', class: 'sun' },
+    1: { icon: '🌤️', class: 'sun' },
+    2: { icon: '⛅', class: 'cloud' },
+    3: { icon: '☁️', class: 'cloud' },
+    45: { icon: '🌫️', class: 'fog' },
+    48: { icon: '🌫️', class: 'fog' },
+    51: { icon: '🌦️', class: 'rain' },
+    53: { icon: '🌦️', class: 'rain' },
+    55: { icon: '🌧️', class: 'rain' },
+    56: { icon: '🌧️', class: 'rain' },
+    57: { icon: '🌧️', class: 'rain' },
+    61: { icon: '🌧️', class: 'rain' },
+    63: { icon: '🌧️', class: 'rain' },
+    65: { icon: '🌧️', class: 'rain' },
+    66: { icon: '🌧️', class: 'rain' },
+    67: { icon: '🌧️', class: 'rain' },
+    71: { icon: '❄️', class: 'snow' },
+    73: { icon: '❄️', class: 'snow' },
+    75: { icon: '❄️', class: 'snow' },
+    77: { icon: '❄️', class: 'snow' },
+    80: { icon: '🌧️', class: 'rain' },
+    81: { icon: '🌧️', class: 'rain' },
+    82: { icon: '🌧️', class: 'rain' },
+    95: { icon: '⛈️', class: 'thunder' },
+    96: { icon: '⛈️', class: 'thunder' },
+    99: { icon: '⛈️', class: 'thunder' }
+  };
+  
+  return iconMap[code] || { icon: '🌤️', class: 'sun' };
+}
+
+function updateWeatherIcon(weatherCode) {
+  const iconContainer = document.getElementById('weatherIcon');
+  const weatherIcon = getWeatherIcon(weatherCode);
+  
+  if (iconContainer) {
+    iconContainer.innerHTML = `
+      <div class="weather-icon ${weatherIcon.class}">${weatherIcon.icon}</div>
+    `;
+  }
+}
+
+// Particle Effects Functions
+let particleInterval = null;
+
+function updateParticleEffects(weatherCode) {
+  // Clear existing particles
+  clearParticles();
+  
+  // Stop existing interval
+  if (particleInterval) {
+    clearInterval(particleInterval);
+  }
+  
+  // Start new particle effects based on weather
+  const weatherClass = getWeatherClass(weatherCode);
+  
+  switch(weatherClass) {
+    case 'weather-clear':
+      startSunParticles();
+      break;
+    case 'weather-cloudy':
+      startCloudParticles();
+      break;
+    case 'weather-rain':
+      startRainParticles();
+      break;
+    case 'weather-snow':
+      startSnowParticles();
+      break;
+    case 'weather-thunder':
+      startThunderParticles();
+      break;
+    case 'weather-fog':
+      startFogParticles();
+      break;
+    default:
+      startSunParticles();
+  }
+}
+
+function clearParticles() {
+  const container = document.getElementById('particles-container');
+  container.innerHTML = '';
+}
+
+function createParticle(type, x, y) {
+  const particle = document.createElement('div');
+  particle.className = `particle ${type}`;
+  particle.style.left = x + 'px';
+  particle.style.top = y + 'px';
+  
+  // Random animation delay
+  const delay = Math.random() * 2;
+  particle.style.animationDelay = delay + 's';
+  
+  document.getElementById('particles-container').appendChild(particle);
+  
+  // Remove particle after animation
+  setTimeout(() => {
+    if (particle.parentNode) {
+      particle.parentNode.removeChild(particle);
+    }
+  }, 5000);
+}
+
+function startSunParticles() {
+  particleInterval = setInterval(() => {
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * window.innerHeight;
+    createParticle('sun', x, y);
+  }, 2000);
+}
+
+function startCloudParticles() {
+  particleInterval = setInterval(() => {
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * (window.innerHeight * 0.3);
+    createParticle('cloud', x, y);
+  }, 3000);
+}
+
+function startRainParticles() {
+  particleInterval = setInterval(() => {
+    for (let i = 0; i < 5; i++) {
+      const x = Math.random() * window.innerWidth;
+      createParticle('rain', x, -20);
+    }
+  }, 100);
+}
+
+function startSnowParticles() {
+  particleInterval = setInterval(() => {
+    for (let i = 0; i < 3; i++) {
+      const x = Math.random() * window.innerWidth;
+      createParticle('snow', x, -20);
+    }
+  }, 200);
+}
+
+function startThunderParticles() {
+  particleInterval = setInterval(() => {
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * (window.innerHeight * 0.5);
+    createParticle('cloud', x, y);
+  }, 1500);
+}
+
+function startFogParticles() {
+  particleInterval = setInterval(() => {
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * (window.innerHeight * 0.4);
+    createParticle('cloud', x, y);
+  }, 2500);
 }
 
 // AI Weather Chatbot Logic
